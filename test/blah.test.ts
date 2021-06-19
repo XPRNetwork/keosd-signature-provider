@@ -1,7 +1,10 @@
-import { sum } from '../src';
+import { JsonRpc, Api } from '@proton/js'
+import { KeosdSignatureProvider } from '../src'
 
-describe('blah', () => {
+describe('normal function', () => {
   it('works', () => {
-    expect(sum(1, 1)).toEqual(2);
+    const rpc = new JsonRpc(['https://proton.eoscafeblock.com'])
+    const api = new Api({ rpc, signatureProvider: new KeosdSignatureProvider() })
+    expect(!!api)    
   });
 });
