@@ -1,2 +1,2 @@
-export * from './keosd-sock'
-export * from './signature-provider'
+export * from './keosd-sock';
+export * from './signature-provider';

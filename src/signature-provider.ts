@@ -1,26 +1,30 @@
-import { ApiInterfaces, RpcInterfaces, Serialize, transactionAbi } from '@proton/js'
-import * as Keosd from './keosd-sock'
+import {
+  ApiInterfaces,
+  RpcInterfaces,
+  Serialize,
+  transactionAbi,
+} from '@proton/js';
+import * as Keosd from './keosd-sock';
 
-const transactionTypes = Serialize.getTypesFromAbi(Serialize.createInitialTypes(), transactionAbi);
+const transactionTypes = Serialize.getTypesFromAbi(
+  Serialize.createInitialTypes(),
+  transactionAbi
+);
 
 const deserialize = (buffer: Serialize.SerialBuffer, type: string) => {
-    return transactionTypes.get(type)!.deserialize(buffer);
-}
+  return transactionTypes.get(type)!.deserialize(buffer);
+};
 const deserializeTransaction = (transaction: Uint8Array) => {
-    const buffer = new Serialize.SerialBuffer();
-    buffer.pushArray(transaction);
-    return deserialize(buffer, 'transaction');
-}
+  const buffer = new Serialize.SerialBuffer();
+  buffer.pushArray(transaction);
+  return deserialize(buffer, 'transaction');
+};
 
 /** Signs transactions using in-process private keys */
 export class KeosdSignatureProvider implements ApiInterfaces.SignatureProvider {
   /** Public keys associated with the private keys that the `SignatureProvider` holds */
   public async getAvailableKeys() {
-    try {
-      return Keosd.wallet_list_public_keys()
-    } catch (_) {
-      throw new Error('Locked Wallet')
-    }
+    return Keosd.wallet_list_public_keys();
   }
 
   /** Sign a transaction */
@@ -29,13 +33,19 @@ export class KeosdSignatureProvider implements ApiInterfaces.SignatureProvider {
     requiredKeys,
     serializedTransaction,
     serializedContextFreeData,
-  }: ApiInterfaces.SignatureProviderArgs): Promise<RpcInterfaces.PushTransactionArgs> {
-    const transaction = deserializeTransaction(serializedTransaction)
-    const {signatures} = await Keosd.wallet_sign_transaction(transaction, requiredKeys, chainId)
+  }: ApiInterfaces.SignatureProviderArgs): Promise<
+    RpcInterfaces.PushTransactionArgs
+  > {
+    const transaction = deserializeTransaction(serializedTransaction);
+    const { signatures } = await Keosd.wallet_sign_transaction(
+      transaction,
+      requiredKeys,
+      chainId
+    );
     return {
       signatures,
       serializedTransaction,
       serializedContextFreeData,
-    }
+    };
   }
 }
