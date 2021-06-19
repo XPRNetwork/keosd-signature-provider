@@ -1,7 +1,10 @@
 {
-  "name": "@proton/keosd-ts",
+  "name": "@proton/keosd-signature-provider",
   "author": "Syed Jafri",
   "module": "dist/keosd-ts.esm.js",
+  "publishConfig": {
+    "access": "public"
+  },
   "version": "0.1.0",
   "license": "MIT",
   "main": "dist/index.js",

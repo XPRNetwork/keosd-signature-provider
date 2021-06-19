@@ -1,21 +1,20 @@
 # Keosd Signature Provider
-
 # Installation
 
 NPM
 ```
-npm i keosd-signature-provider
+npm i @proton/keosd-signature-provider
 ```
 
 YARN
 ```
-yarn add keosd-signature-provider
+yarn add @proton/keosd-signature-provider
 ```
 
 # Usage
 ```
 import { JsonRpc, Api } from '@proton/js'
-import { KeosdSignatureProvider } from '@proton/keosd-ts'
+import { KeosdSignatureProvider } from '@proton/keosd-signature-provider'
 import fetch from 'node-fetch'
 
 const rpc = new JsonRpc(['https://proton.eoscafeblock.com'], { fetch })
