@@ -17,7 +17,7 @@ export const sockCall = async ({
     const client = net.createConnection(wallet_url);
 
     client.on('connect', () => {
-      const bodyString = JSON.stringify(body);
+      const bodyString = body.length > 0 ? JSON.stringify(body) : '';
       let s = '';
       s += `POST ${endpoint} HTTP/1.0\r\n`;
       s += `Host: ${wallet_url}:\r\n`;
